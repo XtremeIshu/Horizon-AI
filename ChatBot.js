@@ -70,7 +70,7 @@ function hasApiKey() {
         typeof API_KEY === "string" &&
         API_KEY.trim().length > 10 &&
         !API_KEY.includes(
-            "PASTE_YOUR_NEW_GEMINI_API_KEY_HERE"
+            "AQ.Ab8RN6IjrayPUCGjdsuY_SsY0TpZkTJLfyDI-HfFnKK0KtraqQ"
         )
     );
 }
@@ -665,7 +665,7 @@ function handleFormSubmit(event) {
 
             <img
                 class="avatar"
-                src="/Skill Mela/Homepage/Images/Logo.jpg"
+                src="Logo.jpg"
                 alt="Horizon"
             />
 
