@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="HORIZON — AI Assisted Website by Tech Titans."
+  >
+
+  <title>HORIZON | AI Assisted Website</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="icon" type="image/x-icon" href="/Skill Mela/Homepage/Images/Logo.jpg">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Background -->
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <a href="#home" class="brand">
+      <img
+        src="/Skill Mela/Homepage/Images/Logo.jpg"
+        alt="HORIZON Logo"
+      >
+
+      <span class="brand-name">
+        HORIZON
+      </span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+
+      <a href="/Skill Mela/Document AI/Document.html">Document</a>
+
+      <a href="/Skill Mela/Utilities/Utilities.html">
+        AI Tools
+      </a>
+
+      <a href="/Skill Mela/Weather/Weather.html">
+        Weather
+      </a>
+
+      <a href="/Skill Mela/Developer Desk/developer-desk.html">
+        Workspace
+      </a>
+
+      <a href="/Skill Mela/Study AI/Study.html">
+        Quiz
+      </a>
+
+    </nav>
+
+    <a href="#assistant" class="nav-cta">
+      Launch AI <span>↗</span>
+    </a>
+
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      aria-label="Open Menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </header>
+
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero section-shell" id="home">
+
+      <div class="hero-copy reveal">
+
+        <div class="eyebrow">
+          <span class="status-dot"></span>
+          AI ASSISTED • BUILT BY TECH TITANS
+        </div>
+
+        <h1>
+          Your smarter
+          <span>digital horizon.</span>
+        </h1>
+
+        <p class="hero-text">
+
+          One modern space for AI assistance,
+          useful tools, weather insights,
+          study help, productivity and more.
+
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="/Skill Mela/ChatBot/ChatBot.html" class="primary-btn">
+            Try HORIZON AI
+            <span>→</span>
+          </a>
+
+          <a href="#tools" class="ghost-btn">
+            Explore Tools
+          </a>
+
+        </div>
+
+        <div class="mini-stats">
+
+          <div>
+            <strong>24/7</strong>
+            <span>AI access</span>
+          </div>
+
+          <div>
+            <strong>10+</strong>
+            <span>smart tools</span>
+          </div>
+
+          <div>
+            <strong>1</strong>
+            <span>connected workspace</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- HERO LOGO -->
+      <div class="hero-visual reveal delay-1">
+
+        <div class="logo-card">
+
+          <div class="logo-ring ring-one"></div>
+          <div class="logo-ring ring-two"></div>
+
+          <img
+            src="/Skill Mela/Homepage/Images/Logo.jpg"
+            alt="HORIZON Logo"
+            class="hero-logo"
+          >
+
+          <div class="scan-line"></div>
+
+          <div class="floating-chip chip-top">
+            AI CORE <span>●</span>
+          </div>
+
+          <div class="floating-chip chip-bottom">
+            READY TO ASSIST <span>✓</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- AI ASSISTANT -->
+    <section class="command-section section-shell" id="assistant">
+
+      <div class="section-heading reveal">
+
+        <span class="section-kicker">
+          01 / AI COMMAND CENTER
+        </span>
+
+        <h2>
+          Ask HORIZON anything.
+        </h2>
+
+        <p>
+          Start with a task, a question or
+          one of the quick commands below.
+        </p>
+
+      </div>
+
+
+      <div class="assistant-card reveal">
+
+        <div class="assistant-top">
+
+          <div class="assistant-badge">
+
+            <span class="pulse-dot"></span>
+
+            HORIZON AI
+
+          </div>
+
+          <span class="model-label">
+            SMART MODE
+          </span>
+
+        </div>
+
+
+        <div class="prompt-box">
+
+          <textarea
+            id="promptInput"
+            rows="3"
+            placeholder="Ask something like “Explain photosynthesis simply…”"
+          ></textarea>
+
+          <button class="ask-btn" id="askBtn">
+            Ask AI <span>↗</span>
+          </button>
+
+        </div>
+
+
+        <div class="quick-prompts">
+
+          <button data-prompt="Summarize a topic for me">
+            Summarize
+          </button>
+
+          <button data-prompt="Help me solve a math problem">
+            Solve Problem
+          </button>
+
+          <button data-prompt="Write a professional email">
+            Write
+          </button>
+
+          <button data-prompt="Generate a study plan">
+            Study Plan
+          </button>
+
+          <button data-prompt="Explain code line by line">
+            Code Help
+          </button>
+
+        </div>
+
+
+        <div class="response-box" id="responseBox">
+
+          <div class="response-icon">
+            ✦
+          </div>
+
+          <div>
+
+            <strong>
+              Ready when you are
+            </strong>
+
+            <p>
+              Your demo assistant is connected to
+              the homepage. Add your AI API later
+              to make responses live.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TOOLS -->
+    <section class="tools-section section-shell" id="tools">
+
+      <div class="section-heading reveal">
+
+        <span class="section-kicker">
+          02 / SMART TOOLS
+        </span>
+
+        <h2>
+          Everything useful, in one place.
+        </h2>
+
+        <p>
+          Designed as a clean AI-powered toolbox
+          instead of a collection of random features.
+        </p>
+
+      </div>
+
+
+      <div class="tool-grid">
+
+        <article class="tool-card reveal">
+
+          <div class="tool-icon">
+            ✦
+          </div>
+
+          <h3>
+            AI Chat
+          </h3>
+
+          <p>
+            Ask questions, brainstorm ideas and
+            work through problems with an AI assistant.
+          </p>
+
+          <a href="/Skill Mela/ChatBot/ChatBot.html">
+            Open tool →
+          </a>
+
+        </article>
+
+
+        <article class="tool-card reveal delay-1">
+
+          <div class="tool-icon">
+            ☼
+          </div>
+
+          <h3>
+            Weather
+          </h3>
+
+          <p>
+            Give users quick access to weather
+            information and forecast-focused widgets.
+          </p>
+
+          <a href="/Skill Mela/Weather/Weather.html">
+            View weather →
+          </a>
+
+        </article>
+
+
+        <article class="tool-card reveal delay-2">
+
+          <div class="tool-icon">
+            ⌘
+          </div>
+
+          <h3>
+            Study Hub
+          </h3>
+
+          <p>
+            Quiz To Help You Memorize
+          </p>
+
+          <a href="/Skill Mela/Study AI/Study.html">
+            Open workspace →
+          </a>
+
+        </article>
+
+
+        <article class="tool-card reveal">
+
+          <div class="tool-icon">
+            ▤
+          </div>
+
+          <h3>
+            Document AI
+          </h3>
+
+          <p>
+            Plan a future document area for summarizing,
+            extracting and organizing content.
+          </p>
+
+          <a href="/Skill Mela/Document AI/Document.html">
+            Explore →
+          </a>
+
+        </article>
+
+
+        <article class="tool-card reveal delay-1">
+
+          <div class="tool-icon">
+            &lt;/&gt;
+          </div>
+
+          <h3>
+            Developer Desk
+          </h3>
+
+          <p>
+            Keep code help, snippets and debugging
+            prompts close to the rest of your tools.
+          </p>
+
+          <a href="/Skill Mela/Developer Desk/developer-desk.html">
+            Start coding →
+          </a>
+
+        </article>
+
+
+        <article class="tool-card reveal delay-2">
+
+          <div class="tool-icon">
+            ◌
+          </div>
+
+          <h3>
+            Utilities
+          </h3>
+
+          <p>
+            Build calculators, converters, timers
+            and small productivity helpers.
+          </p>
+
+          <a href="/Skill Mela/Utilities/Utilities.html">
+            See workspace →
+          </a>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- WEATHER -->
+    <section class="weather-section section-shell" id="weather">
+
+      <div class="weather-copy reveal">
+
+        <span class="section-kicker">
+          03 / LIVE WEATHER
+        </span>
+
+        <h2>
+          Keep an eye on the sky.
+        </h2>
+
+        <p>
+
+          A dedicated weather area gives HORIZON
+          a practical daily-use layer.
+
+          Connect it to your preferred weather API
+          when you're ready.
+
+        </p>
+
+        <button class="outline-btn" id="weatherDemoBtn">
+          Refresh Demo Weather
+        </button>
+
+      </div>
+
+
+      <div class="weather-card reveal delay-1">
+
+        <div class="weather-top">
+
+          <span>
+            YOUR CITY
+          </span>
+
+          <span id="weatherTime">
+            07:29 AM
+          </span>
+
+        </div>
+
+
+        <div class="weather-main">
+
+          <div class="weather-symbol">
+            ☼
+          </div>
+
+          <div>
+
+            <strong id="tempValue">
+              28°
+            </strong>
+
+            <p id="conditionValue">
+              Clear & bright
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="weather-meta">
+
+          <div>
+
+            <span>
+              Feels like
+            </span>
+
+            <strong>
+              30°
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span>
+              Humidity
+            </span>
+
+            <strong>
+              54%
+            </strong>
+
+          </div>
+
+          <div>
+
+            <span>
+              Wind
+            </span>
+
+            <strong>
+              11 km/h
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WORKSPACE -->
+    <section class="workspace-section section-shell" id="workspace">
+
+      <div class="workspace-panel reveal">
+
+
+        <div class="workspace-sidebar">
+
+          <div class="workspace-brand">
+            HZ
+          </div>
+
+          <span class="active">
+            ⌂
+          </span>
+
+          <span>
+            ✦
+          </span>
+
+          <span>
+            ☼
+          </span>
+
+          <span>
+            ▤
+          </span>
+
+          <span>
+            ⌘
+          </span>
+
+          <span>
+            ⚙
+          </span>
+
+        </div>
+
+
+        <div class="workspace-main">
+
+          <div class="workspace-head">
+
+            <div>
+
+              <span class="section-kicker">
+                04 / YOUR WORKSPACE
+              </span>
+
+              <h2>
+                One dashboard.
+                Multiple possibilities.
+              </h2>
+
+            </div>
+
+            <div class="live-pill">
+
+              <span></span>
+
+              SYSTEM READY
+
+            </div>
+
+          </div>
+
+
+          <div class="workspace-grid">
+
+
+            <div class="dashboard-card large">
+
+              <span class="dashboard-label">
+                AI ACTIVITY
+              </span>
+
+              <div class="activity-bars">
+
+                <i style="height:38%"></i>
+                <i style="height:55%"></i>
+                <i style="height:48%"></i>
+                <i style="height:72%"></i>
+                <i style="height:63%"></i>
+                <i style="height:88%"></i>
+                <i style="height:76%"></i>
+                <i style="height:94%"></i>
+                <i style="height:70%"></i>
+                <i style="height:84%"></i>
+
+              </div>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+              <span class="dashboard-label">
+                QUICK ACCESS
+              </span>
+
+              <div class="quick-list">
+
+                <span>
+                  AI Chat
+                  <b>→</b>
+                </span>
+
+                <span>
+                  Study Hub
+                  <b>→</b>
+                </span>
+
+                <span>
+                  Weather
+                  <b>→</b>
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+              <span class="dashboard-label">
+                TODAY
+              </span>
+
+              <strong class="big-number">
+                08
+              </strong>
+
+              <p>
+                smart tasks ready
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="about-section section-shell" id="about">
+
+      <div class="section-heading centered reveal">
+
+        <span class="section-kicker">
+          05 / WHY HORIZON
+        </span>
+
+        <h2>
+          Built to feel fast,
+          focused and futuristic.
+        </h2>
+
+        <p>
+
+          The design language takes the blue glow,
+          dark navy background, bright horizon light
+          and clean typography from your logo.
+
+        </p>
+
+      </div>
+
+
+      <div class="principles">
+
+        <div class="principle-card reveal">
+
+          <span>
+            01
+          </span>
+
+          <h3>
+            Clear
+          </h3>
+
+          <p>
+            Every feature has a simple purpose
+            and a visible next action.
+          </p>
+
+        </div>
+
+
+        <div class="principle-card reveal delay-1">
+
+          <span>
+            02
+          </span>
+
+          <h3>
+            Connected
+          </h3>
+
+          <p>
+            AI, utilities, weather and workspace
+            pieces are designed to work together.
+          </p>
+
+        </div>
+
+
+        <div class="principle-card reveal delay-2">
+
+          <span>
+            03
+          </span>
+
+          <h3>
+            Expandable
+          </h3>
+
+          <p>
+            Start with the homepage and keep adding
+            APIs and tools as HORIZON grows.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="final-cta section-shell reveal">
+
+      <div>
+
+        <span class="section-kicker">
+          READY FOR THE NEXT STEP?
+        </span>
+
+        <h2>
+          Bring your ideas
+          to the HORIZON.
+        </h2>
+
+      </div>
+
+      <a href="#assistant" class="primary-btn">
+        Launch AI Assistant
+        <span>→</span>
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <img
+          src="assets/horizon-logo.jpeg"
+          alt="HORIZON Logo"
+        >
+
+        <div>
+
+          <strong>
+            HORIZON
+          </strong>
+
+          <span>
+            AI ASSISTED WEBSITE
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <p>
+        © 2026 Tech Titans.
+        Built for the next digital horizon.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>

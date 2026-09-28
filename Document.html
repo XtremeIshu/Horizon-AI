@@ -1,0 +1,3700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="HORIZON Document AI — Read, summarize and analyze documents locally."
+  >
+
+  <title>HORIZON | Document AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="icon" type="image/x-icon" href="/Skill Mela/Homepage/Images/Logo.jpg">
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <!-- Mammoth DOCX reader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #020814;
+      --bg2: #050c19;
+      --panel: #09101f;
+      --panel2: #0d1728;
+
+      --blue: #078ff0;
+      --blue2: #20b7ff;
+      --deep: #0754a6;
+
+      --text: #f5f8ff;
+      --text2: #dce9f7;
+      --muted: #8fa8c4;
+
+      --border: #16365a;
+      --border2: #1b4c7d;
+
+      --success: #20d6a3;
+      --danger: #ff5e79;
+
+      --shadow:
+        0 20px 70px rgba(0, 0, 0, 0.35);
+
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 15% 10%,
+          rgba(7, 143, 240, 0.12),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(32, 183, 255, 0.08),
+          transparent 28%
+        ),
+        var(--bg);
+
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body.light {
+      --bg: #eef6ff;
+      --bg2: #f7fbff;
+      --panel: #ffffff;
+      --panel2: #f2f8ff;
+
+      --text: #081525;
+      --text2: #18324f;
+      --muted: #5d7690;
+
+      --border: #cbdff2;
+      --border2: #9ec8ec;
+
+      --shadow:
+        0 20px 60px rgba(40, 90, 130, 0.15);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================== */
+
+    .page-glow {
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      opacity: 0.13;
+      z-index: -2;
+    }
+
+    .glow-one {
+      top: 80px;
+      left: -150px;
+      background: var(--blue);
+    }
+
+    .glow-two {
+      right: -150px;
+      top: 400px;
+      background: var(--blue2);
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+
+      background-image:
+        linear-gradient(
+          rgba(50, 130, 190, 0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(50, 130, 190, 0.025) 1px,
+          transparent 1px
+        );
+
+      background-size: 50px 50px;
+    }
+
+    /* =========================
+       EXACT HOMEPAGE NAVBAR
+    ========================== */
+
+    .navbar {
+      position: sticky;
+      top: 18px;
+      z-index: 1000;
+
+      width: min(1180px, calc(100% - 32px));
+      margin: 18px auto 0;
+
+      min-height: 72px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 10px 12px 10px 20px;
+
+      border: 1px solid rgba(110, 180, 235, 0.18);
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(8, 20, 38, 0.92),
+          rgba(4, 14, 28, 0.88)
+        );
+
+      backdrop-filter: blur(18px);
+
+      box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    body.light .navbar {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: rgba(20, 90, 140, 0.14);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      object-fit: cover;
+
+      box-shadow:
+        0 0 20px rgba(7, 143, 240, 0.35);
+    }
+
+    .brand-name {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+      margin-right: 16px;
+    }
+
+    .nav-links a {
+      padding: 11px 13px;
+      border-radius: 12px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      font-weight: 600;
+
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(7, 143, 240, 0.09);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 12px 17px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue2)
+        );
+
+      color: white;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 25px rgba(7, 143, 240, 0.2);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 14px 30px rgba(7, 143, 240, 0.32);
+    }
+
+    .nav-cta span {
+      font-size: 16px;
+    }
+
+    .menu-btn {
+      display: none;
+
+      border: 0;
+      background: transparent;
+
+      color: var(--text);
+
+      font-size: 25px;
+      padding: 8px;
+    }
+
+    /* =========================
+       MAIN
+    ========================== */
+
+    main {
+      width: min(1400px, calc(100% - 32px));
+      margin: auto;
+      padding-bottom: 70px;
+    }
+
+    .page-header {
+      padding: 70px 0 35px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 13px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: rgba(7, 143, 240, 0.06);
+
+      color: var(--blue2);
+
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+
+      box-shadow:
+        0 0 12px var(--success);
+    }
+
+    .page-header h1 {
+      margin-top: 20px;
+
+      font-family: "Space Grotesk", sans-serif;
+
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+    }
+
+    .page-header h1 span {
+      color: var(--blue2);
+    }
+
+    .page-header p {
+      max-width: 700px;
+      margin: 18px auto 0;
+
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================== */
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+
+      margin-bottom: 20px;
+
+      padding: 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: rgba(9, 16, 31, 0.8);
+
+      backdrop-filter: blur(15px);
+    }
+
+    body.light .toolbar {
+      background: rgba(255,255,255,0.8);
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      border: 1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: var(--panel2);
+
+      color: var(--text2);
+
+      padding: 10px 13px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      transition: 0.2s;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--blue);
+      color: white;
+      background: rgba(7, 143, 240, 0.1);
+    }
+
+    .tool-btn.primary {
+      border-color: transparent;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue2)
+        );
+    }
+
+    .tool-btn.danger {
+      color: var(--danger);
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 12px;
+      border: 1px solid var(--border);
+
+      background: var(--panel2);
+      color: var(--text);
+
+      display: grid;
+      place-items: center;
+
+      font-size: 17px;
+    }
+
+    /* =========================
+       WORKSPACE
+    ========================== */
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+      gap: 20px;
+    }
+
+    .panel {
+      min-width: 0;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(9, 16, 31, 0.97),
+          rgba(5, 12, 25, 0.96)
+        );
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+    }
+
+    body.light .panel {
+      background: var(--panel);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 18px 20px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-title-icon {
+      width: 35px;
+      height: 35px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background: rgba(7, 143, 240, 0.1);
+
+      color: var(--blue2);
+    }
+
+    .panel-title h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 17px;
+    }
+
+    .panel-title p {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* =========================
+       DROPZONE
+    ========================== */
+
+    .drop-zone {
+      margin: 18px;
+
+      padding: 38px 20px;
+
+      border: 1px dashed var(--border2);
+      border-radius: 18px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(7, 143, 240, 0.08),
+          transparent 60%
+        );
+
+      text-align: center;
+
+      transition: 0.25s;
+    }
+
+    .drop-zone.dragover {
+      border-color: var(--blue2);
+      background: rgba(7, 143, 240, 0.12);
+      transform: scale(1.01);
+    }
+
+    .upload-icon {
+      width: 58px;
+      height: 58px;
+
+      display: grid;
+      place-items: center;
+
+      margin: auto auto 15px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(7, 143, 240, 0.16),
+          rgba(32, 183, 255, 0.07)
+        );
+
+      color: var(--blue2);
+
+      font-size: 25px;
+    }
+
+    .drop-zone h3 {
+      font-size: 16px;
+    }
+
+    .drop-zone p {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .browse-btn {
+      display: inline-block;
+
+      margin-top: 15px;
+
+      padding: 10px 15px;
+
+      border-radius: 11px;
+
+      background: var(--blue);
+
+      color: white;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* =========================
+       STATS
+    ========================== */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+
+      padding: 0 18px 18px;
+    }
+
+    .stat {
+      padding: 13px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      background: var(--panel2);
+    }
+
+    .stat span {
+      display: block;
+
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .stat strong {
+      display: block;
+
+      margin-top: 5px;
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 17px;
+    }
+
+    /* =========================
+       READER
+    ========================== */
+
+    .reader {
+      margin: 0 18px 18px;
+
+      min-height: 430px;
+      max-height: 650px;
+
+      overflow-y: auto;
+
+      padding: 25px;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,0.025),
+          rgba(255,255,255,0)
+        );
+
+      line-height: 1.8;
+      color: var(--text2);
+
+      font-size: 14px;
+    }
+
+    .reader.empty {
+      display: grid;
+      place-items: center;
+
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .reader h1,
+    .reader h2,
+    .reader h3 {
+      margin: 18px 0 9px;
+      color: var(--text);
+    }
+
+    .reader p {
+      margin-bottom: 12px;
+    }
+
+    .reader ul {
+      margin: 0 0 15px 20px;
+    }
+
+    .reader mark {
+      background: rgba(32, 183, 255, 0.25);
+      color: var(--text);
+      padding: 1px 3px;
+      border-radius: 3px;
+    }
+
+    /* =========================
+       AI PANEL
+    ========================== */
+
+    .ai-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+
+      padding: 18px;
+    }
+
+    .ai-btn {
+      min-height: 72px;
+
+      text-align: left;
+
+      padding: 13px;
+
+      border: 1px solid var(--border);
+      border-radius: 14px;
+
+      background: var(--panel2);
+      color: var(--text);
+
+      transition: 0.2s;
+    }
+
+    .ai-btn:hover {
+      transform: translateY(-2px);
+
+      border-color: var(--blue);
+
+      background:
+        rgba(7, 143, 240, 0.08);
+    }
+
+    .ai-btn strong {
+      display: block;
+
+      font-size: 12px;
+    }
+
+    .ai-btn span {
+      display: block;
+
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       RESULT
+    ========================== */
+
+    .result {
+      margin: 0 18px 18px;
+
+      min-height: 300px;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+
+      background: rgba(0,0,0,0.1);
+
+      overflow: hidden;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 13px 15px;
+
+      border-bottom: 1px solid var(--border);
+
+      color: var(--muted);
+
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .result-body {
+      padding: 18px;
+
+      max-height: 400px;
+      overflow-y: auto;
+
+      color: var(--text2);
+
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .result-body h3 {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .result-body ul {
+      padding-left: 20px;
+    }
+
+    .result-body li {
+      margin-bottom: 8px;
+    }
+
+    /* =========================
+       QUESTION BOX
+    ========================== */
+
+    .question-box {
+      display: flex;
+      gap: 9px;
+
+      padding: 0 18px 18px;
+    }
+
+    .question-box input {
+      flex: 1;
+
+      min-width: 0;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: var(--panel2);
+      color: var(--text);
+
+      outline: none;
+
+      padding: 12px;
+
+      font-size: 12px;
+    }
+
+    .question-box input:focus {
+      border-color: var(--blue);
+    }
+
+    .ask-btn {
+      border: 0;
+      border-radius: 12px;
+
+      padding: 0 16px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue2)
+        );
+
+      color: white;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       RECENT
+    ========================== */
+
+    .recent {
+      margin: 0 18px 18px;
+    }
+
+    .recent-title {
+      margin-bottom: 9px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .recent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .recent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 10px 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: var(--panel2);
+
+      font-size: 11px;
+    }
+
+    .recent-item span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .recent-item small {
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+
+    /* =========================
+       SEARCH
+    ========================== */
+
+    .search-modal {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      place-items: center;
+
+      padding: 20px;
+
+      background: rgba(0, 5, 12, 0.75);
+
+      backdrop-filter: blur(10px);
+
+      z-index: 2000;
+    }
+
+    .search-modal.active {
+      display: grid;
+    }
+
+    .search-box {
+      width: min(650px, 100%);
+
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+
+      background: var(--panel);
+
+      box-shadow:
+        0 30px 100px rgba(0,0,0,0.5);
+
+      overflow: hidden;
+    }
+
+    .search-top {
+      display: flex;
+      gap: 10px;
+
+      padding: 15px;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-top input {
+      flex: 1;
+
+      border: 0;
+      outline: 0;
+
+      background: transparent;
+      color: var(--text);
+
+      font-size: 14px;
+    }
+
+    .close-search {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    .search-results {
+      max-height: 400px;
+      overflow-y: auto;
+
+      padding: 12px 15px;
+    }
+
+    .search-result {
+      padding: 12px;
+
+      border-radius: 10px;
+
+      transition: 0.2s;
+    }
+
+    .search-result:hover {
+      background: rgba(7,143,240,0.08);
+    }
+
+    .search-result strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .search-result p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       TOAST
+    ========================== */
+
+    .toast {
+      position: fixed;
+
+      right: 22px;
+      bottom: 22px;
+
+      transform: translateY(120px);
+
+      padding: 13px 17px;
+
+      border: 1px solid var(--border2);
+      border-radius: 13px;
+
+      background: var(--panel);
+
+      color: var(--text);
+
+      font-size: 12px;
+      font-weight: 700;
+
+      box-shadow: var(--shadow);
+
+      z-index: 3000;
+
+      transition: 0.3s;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .footer {
+      margin-top: 50px;
+
+      padding: 25px;
+
+      border-top: 1px solid var(--border);
+
+      color: var(--muted);
+
+      text-align: center;
+
+      font-size: 11px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 1000px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .navbar {
+        top: 10px;
+        margin-top: 10px;
+      }
+
+      .nav-links {
+        position: absolute;
+
+        left: 0;
+        right: 0;
+        top: calc(100% + 10px);
+
+        display: none;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        margin: 0;
+        padding: 10px;
+
+        border: 1px solid var(--border);
+        border-radius: 18px;
+
+        background: var(--panel);
+
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 13px;
+      }
+
+      .nav-cta {
+        margin-left: auto;
+        margin-right: 8px;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .toolbar-left,
+      .toolbar-right {
+        width: 100%;
+      }
+
+      .tool-btn {
+        flex: 1;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      main {
+        width: min(100% - 20px, 1400px);
+      }
+
+      .navbar {
+        width: calc(100% - 20px);
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .nav-cta {
+        padding: 10px 12px;
+      }
+
+      .page-header {
+        padding-top: 50px;
+      }
+
+      .page-header h1 {
+        font-size: 40px;
+      }
+
+      .ai-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .question-box {
+        flex-direction: column;
+      }
+
+      .ask-btn {
+        height: 42px;
+      }
+
+      .reader {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background -->
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- =====================================================
+       EXACT HOMEPAGE NAVBAR
+  ====================================================== -->
+
+  <header class="navbar">
+
+    <a href="#home" class="brand">
+
+      <img
+        src="/Skill Mela/Homepage/Images/Logo.jpg"
+        alt="HORIZON Logo"
+      >
+
+      <span class="brand-name">
+        HORIZON
+      </span>
+
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+
+      <a href="/Skill Mela/Homepage/index.html">
+        Home
+      </a>
+
+      <a href="/Skill Mela/Utilities/Utilities.html">
+        AI Tools
+      </a>
+
+      <a href="/Skill Mela/Weather/Weather.html">
+        Weather
+      </a>
+
+      <a href="/Skill Mela/Developer Desk/developer-desk.html">
+        Workspace
+      </a>
+
+      <a href="/Skill Mela/Study AI/Study.html">
+        Study
+      </a>
+
+    </nav>
+
+    <a
+      href="/Skill Mela/ChatBot/ChatBot.html"
+      class="nav-cta"
+    >
+      Launch AI <span>↗</span>
+    </a>
+
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      aria-label="Open Menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </header>
+
+
+  <main id="home">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <section class="page-header">
+
+      <div class="eyebrow">
+        <span class="status-dot"></span>
+        DOCUMENT AI • LOCAL PROCESSING
+      </div>
+
+      <h1>
+        Understand your
+        <span>documents.</span>
+      </h1>
+
+      <p>
+        Upload a PDF, DOCX, TXT or Markdown file and use
+        HORIZON's local document tools to summarize,
+        extract key points, explain content and answer questions.
+      </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         TOOLBAR
+    ====================================================== -->
+
+    <div class="toolbar">
+
+      <div class="toolbar-left">
+
+        <button
+          class="tool-btn primary"
+          id="openBtn"
+        >
+          ＋ Open Document
+        </button>
+
+        <button
+          class="tool-btn"
+          id="searchBtn"
+        >
+          ⌕ Search
+        </button>
+
+        <button
+          class="tool-btn"
+          id="exportBtn"
+        >
+          ↓ Export Analysis
+        </button>
+
+      </div>
+
+      <div class="toolbar-right">
+
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          title="Toggle theme"
+        >
+          ☾
+        </button>
+
+        <button
+          class="tool-btn danger"
+          id="resetBtn"
+        >
+          Reset
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         WORKSPACE
+    ====================================================== -->
+
+    <section class="workspace">
+
+      <!-- DOCUMENT PANEL -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+
+            <div class="panel-title-icon">
+              ▤
+            </div>
+
+            <div>
+
+              <h2>
+                Document Reader
+              </h2>
+
+              <p id="fileName">
+                No document loaded
+              </p>
+
+            </div>
+
+          </div>
+
+          <span id="fileType">
+            —
+          </span>
+
+        </div>
+
+
+        <div
+          class="drop-zone"
+          id="dropZone"
+        >
+
+          <div class="upload-icon">
+            ↑
+          </div>
+
+          <h3>
+            Drop your document here
+          </h3>
+
+          <p>
+            PDF, DOCX, TXT and Markdown files are supported.
+            Files are processed locally in your browser.
+          </p>
+
+          <label
+            class="browse-btn"
+            for="fileInput"
+          >
+            Browse Files
+          </label>
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.docx,.txt,.md,.markdown"
+          >
+
+        </div>
+
+
+        <div class="stats">
+
+          <div class="stat">
+            <span>Words</span>
+            <strong id="wordCount">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>Characters</span>
+            <strong id="charCount">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>Sentences</span>
+            <strong id="sentenceCount">0</strong>
+          </div>
+
+          <div class="stat">
+            <span>Reading</span>
+            <strong id="readingTime">0 min</strong>
+          </div>
+
+        </div>
+
+
+        <div
+          class="reader empty"
+          id="reader"
+        >
+          <div>
+            <strong>
+              Your document will appear here
+            </strong>
+
+            <p style="margin-top:8px">
+              Upload a file to begin.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="recent">
+
+          <div class="recent-title">
+            Recent Documents
+          </div>
+
+          <div
+            class="recent-list"
+            id="recentList"
+          >
+            <div
+              style="
+                color:var(--muted);
+                font-size:11px;
+              "
+            >
+              No recent documents.
+            </div>
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- AI PANEL -->
+
+      <article class="panel">
+
+        <div class="panel-header">
+
+          <div class="panel-title">
+
+            <div class="panel-title-icon">
+              ✦
+            </div>
+
+            <div>
+
+              <h2>
+                Document AI
+              </h2>
+
+              <p>
+                Local analysis tools
+              </p>
+
+            </div>
+
+          </div>
+
+          <span
+            style="
+              color:var(--success);
+              font-size:11px;
+              font-weight:800;
+            "
+          >
+            ● READY
+          </span>
+
+        </div>
+
+
+        <div class="ai-actions">
+
+          <button
+            class="ai-btn"
+            data-action="summary"
+          >
+            <strong>
+              ✦ Summarize
+            </strong>
+
+            <span>
+              Create a concise overview.
+            </span>
+          </button>
+
+
+          <button
+            class="ai-btn"
+            data-action="points"
+          >
+            <strong>
+              ◈ Key Points
+            </strong>
+
+            <span>
+              Extract the most important ideas.
+            </span>
+          </button>
+
+
+          <button
+            class="ai-btn"
+            data-action="questions"
+          >
+            <strong>
+              ? Generate Questions
+            </strong>
+
+            <span>
+              Create revision questions.
+            </span>
+          </button>
+
+
+          <button
+            class="ai-btn"
+            data-action="explain"
+          >
+            <strong>
+              ◎ Explain
+            </strong>
+
+            <span>
+              Make difficult content simpler.
+            </span>
+          </button>
+
+        </div>
+
+
+        <div class="result">
+
+          <div class="result-header">
+
+            <span>
+              Analysis
+            </span>
+
+            <span id="resultStatus">
+              Waiting
+            </span>
+
+          </div>
+
+          <div
+            class="result-body"
+            id="resultBody"
+          >
+
+            <div
+              style="
+                color:var(--muted);
+                text-align:center;
+                padding:60px 10px;
+              "
+            >
+              Upload a document and choose an AI action.
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="question-box">
+
+          <input
+            id="questionInput"
+            type="text"
+            placeholder="Ask a question about your document..."
+          >
+
+          <button
+            class="ask-btn"
+            id="askQuestion"
+          >
+            Ask
+          </button>
+
+        </div>
+
+      </article>
+
+    </section>
+
+  </main>
+
+
+  <!-- SEARCH MODAL -->
+
+  <div
+    class="search-modal"
+    id="searchModal"
+  >
+
+    <div class="search-box">
+
+      <div class="search-top">
+
+        <input
+          id="searchInput"
+          placeholder="Search inside your document..."
+          autocomplete="off"
+        >
+
+        <button
+          class="close-search"
+          id="closeSearch"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div
+        class="search-results"
+        id="searchResults"
+      >
+        <p
+          style="
+            color:var(--muted);
+            padding:20px;
+            text-align:center;
+          "
+        >
+          Type something to search.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TOAST -->
+
+  <div
+    class="toast"
+    id="toast"
+  >
+    Ready
+  </div>
+
+
+  <footer class="footer">
+    HORIZON Document AI • Local browser-based document processing
+  </footer>
+
+
+<script>
+/* =========================================================
+   HORIZON DOCUMENT AI
+   ========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const fileInput = document.getElementById("fileInput");
+const openBtn = document.getElementById("openBtn");
+const resetBtn = document.getElementById("resetBtn");
+const dropZone = document.getElementById("dropZone");
+
+const reader = document.getElementById("reader");
+
+const fileName = document.getElementById("fileName");
+const fileType = document.getElementById("fileType");
+
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+const sentenceCount = document.getElementById("sentenceCount");
+const readingTime = document.getElementById("readingTime");
+
+const resultBody = document.getElementById("resultBody");
+const resultStatus = document.getElementById("resultStatus");
+
+const questionInput =
+  document.getElementById("questionInput");
+
+const askQuestion =
+  document.getElementById("askQuestion");
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+const searchBtn =
+  document.getElementById("searchBtn");
+
+const searchModal =
+  document.getElementById("searchModal");
+
+const closeSearch =
+  document.getElementById("closeSearch");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const searchResults =
+  document.getElementById("searchResults");
+
+const exportBtn =
+  document.getElementById("exportBtn");
+
+const recentList =
+  document.getElementById("recentList");
+
+const menuBtn =
+  document.getElementById("menuBtn");
+
+const navLinks =
+  document.getElementById("navLinks");
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let documentText = "";
+let currentFile = null;
+
+
+/* =========================================================
+   PDF.JS
+   ========================================================= */
+
+if (window.pdfjsLib) {
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 2600);
+}
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(theme) {
+
+  if (theme === "light") {
+
+    document.body.classList.add("light");
+
+    themeToggle.textContent = "☀";
+
+  } else {
+
+    document.body.classList.remove("light");
+
+    themeToggle.textContent = "☾";
+
+  }
+
+  localStorage.setItem(
+    "horizon-theme",
+    theme
+  );
+}
+
+
+const savedTheme =
+  localStorage.getItem("horizon-theme") || "dark";
+
+applyTheme(savedTheme);
+
+
+themeToggle.addEventListener("click", () => {
+
+  const isLight =
+    document.body.classList.contains("light");
+
+  applyTheme(
+    isLight ? "dark" : "light"
+  );
+
+});
+
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+
+menuBtn.addEventListener("click", () => {
+
+  const open =
+    navLinks.classList.toggle("open");
+
+  menuBtn.setAttribute(
+    "aria-expanded",
+    open ? "true" : "false"
+  );
+
+});
+
+
+navLinks.querySelectorAll("a").forEach(link => {
+
+  link.addEventListener("click", () => {
+
+    navLinks.classList.remove("open");
+
+    menuBtn.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  });
+
+});
+
+
+/* =========================================================
+   OPEN FILE
+   ========================================================= */
+
+openBtn.addEventListener(
+  "click",
+  () => fileInput.click()
+);
+
+
+fileInput.addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target.files[0];
+
+    if (file) {
+      loadFile(file);
+    }
+
+  }
+);
+
+
+/* =========================================================
+   DRAG AND DROP
+   ========================================================= */
+
+[
+  "dragenter",
+  "dragover"
+].forEach(eventName => {
+
+  dropZone.addEventListener(
+    eventName,
+    event => {
+
+      event.preventDefault();
+
+      dropZone.classList.add(
+        "dragover"
+      );
+
+    }
+  );
+
+});
+
+
+[
+  "dragleave",
+  "drop"
+].forEach(eventName => {
+
+  dropZone.addEventListener(
+    eventName,
+    event => {
+
+      event.preventDefault();
+
+      dropZone.classList.remove(
+        "dragover"
+      );
+
+    }
+  );
+
+});
+
+
+dropZone.addEventListener(
+  "drop",
+  event => {
+
+    const file =
+      event.dataTransfer.files[0];
+
+    if (file) {
+      loadFile(file);
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOAD FILE
+   ========================================================= */
+
+async function loadFile(file) {
+
+  const extension =
+    file.name
+      .split(".")
+      .pop()
+      .toLowerCase();
+
+
+  const supported = [
+    "pdf",
+    "docx",
+    "txt",
+    "md",
+    "markdown"
+  ];
+
+
+  if (!supported.includes(extension)) {
+
+    showToast(
+      "Unsupported file type."
+    );
+
+    return;
+  }
+
+
+  currentFile = file;
+
+  fileName.textContent =
+    file.name;
+
+  fileType.textContent =
+    extension.toUpperCase();
+
+
+  reader.classList.remove(
+    "empty"
+  );
+
+
+  reader.innerHTML =
+    `<p style="color:var(--muted)">
+      Reading document...
+    </p>`;
+
+
+  resultBody.innerHTML =
+    `<div style="
+      color:var(--muted);
+      text-align:center;
+      padding:60px 10px;
+    ">
+      Choose an analysis tool.
+    </div>`;
+
+
+  resultStatus.textContent =
+    "Reading";
+
+
+  try {
+
+    let text = "";
+
+
+    if (extension === "pdf") {
+
+      text =
+        await readPDF(file);
+
+    } else if (extension === "docx") {
+
+      text =
+        await readDOCX(file);
+
+    } else {
+
+      text =
+        await file.text();
+
+    }
+
+
+    documentText =
+      cleanText(text);
+
+
+    if (!documentText.trim()) {
+
+      throw new Error(
+        "No readable text found."
+      );
+
+    }
+
+
+    renderDocument(
+      documentText
+    );
+
+    updateStats(
+      documentText
+    );
+
+    saveRecent(
+      file.name
+    );
+
+
+    resultStatus.textContent =
+      "Ready";
+
+    showToast(
+      "Document loaded successfully."
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    reader.innerHTML =
+      `<div style="
+        color:var(--danger);
+        text-align:center;
+        padding:50px 10px;
+      ">
+        <strong>
+          Could not read this document.
+        </strong>
+
+        <p style="margin-top:8px">
+          ${escapeHTML(
+            error.message || "Unknown error"
+          )}
+        </p>
+      </div>`;
+
+
+    resultStatus.textContent =
+      "Error";
+
+
+    showToast(
+      "Could not read document."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   READ PDF
+   ========================================================= */
+
+async function readPDF(file) {
+
+  if (!window.pdfjsLib) {
+
+    throw new Error(
+      "PDF.js could not be loaded."
+    );
+
+  }
+
+
+  const buffer =
+    await file.arrayBuffer();
+
+
+  const pdf =
+    await pdfjsLib.getDocument({
+      data: buffer
+    }).promise;
+
+
+  let fullText = "";
+
+
+  for (
+    let pageNumber = 1;
+    pageNumber <= pdf.numPages;
+    pageNumber++
+  ) {
+
+    const page =
+      await pdf.getPage(pageNumber);
+
+
+    const content =
+      await page.getTextContent();
+
+
+    const pageText =
+      content.items
+        .map(item => item.str)
+        .join(" ");
+
+
+    fullText +=
+      pageText + "\n\n";
+
+  }
+
+
+  return fullText;
+}
+
+
+/* =========================================================
+   READ DOCX
+   ========================================================= */
+
+async function readDOCX(file) {
+
+  if (!window.mammoth) {
+
+    throw new Error(
+      "Mammoth.js could not be loaded."
+    );
+
+  }
+
+
+  const buffer =
+    await file.arrayBuffer();
+
+
+  const result =
+    await mammoth.extractRawText({
+      arrayBuffer: buffer
+    });
+
+
+  return result.value;
+}
+
+
+/* =========================================================
+   CLEAN TEXT
+   ========================================================= */
+
+function cleanText(text) {
+
+  return text
+    .replace(/\r/g, "")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+}
+
+
+/* =========================================================
+   RENDER DOCUMENT
+   ========================================================= */
+
+function renderDocument(text) {
+
+  const paragraphs =
+    text
+      .split(/\n{2,}/)
+      .map(x => x.trim())
+      .filter(Boolean);
+
+
+  let html = "";
+
+
+  if (!paragraphs.length) {
+
+    html =
+      `<p>${escapeHTML(text)}</p>`;
+
+  } else {
+
+    html =
+      paragraphs
+        .map(paragraph => {
+
+          if (
+            paragraph.startsWith("# ")
+          ) {
+
+            return `
+              <h2>
+                ${escapeHTML(
+                  paragraph.slice(2)
+                )}
+              </h2>
+            `;
+
+          }
+
+
+          if (
+            paragraph.startsWith("## ")
+          ) {
+
+            return `
+              <h3>
+                ${escapeHTML(
+                  paragraph.slice(3)
+                )}
+              </h3>
+            `;
+
+          }
+
+
+          return `
+            <p>
+              ${escapeHTML(paragraph)}
+            </p>
+          `;
+
+        })
+        .join("");
+
+  }
+
+
+  reader.innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function updateStats(text) {
+
+  const words =
+    text
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+
+  const sentences =
+    getSentences(text);
+
+
+  wordCount.textContent =
+    words.length.toLocaleString();
+
+
+  charCount.textContent =
+    text.length.toLocaleString();
+
+
+  sentenceCount.textContent =
+    sentences.length.toLocaleString();
+
+
+  const minutes =
+    Math.max(
+      1,
+      Math.ceil(
+        words.length / 200
+      )
+    );
+
+
+  readingTime.textContent =
+    `${minutes} min`;
+
+}
+
+
+/* =========================================================
+   SENTENCES
+   ========================================================= */
+
+function getSentences(text) {
+
+  return text
+    .replace(/\n+/g, " ")
+    .split(
+      /(?<=[.!?])\s+/
+    )
+    .map(x => x.trim())
+    .filter(
+      x => x.length > 15
+    );
+
+}
+
+
+/* =========================================================
+   WORD FREQUENCY
+   ========================================================= */
+
+function getWordFrequency(text) {
+
+  const stopWords = new Set([
+
+    "the",
+    "and",
+    "that",
+    "this",
+    "with",
+    "from",
+    "have",
+    "were",
+    "they",
+    "their",
+    "there",
+    "which",
+    "about",
+    "would",
+    "could",
+    "should",
+    "into",
+    "more",
+    "than",
+    "then",
+    "when",
+    "where",
+    "what",
+    "your",
+    "you",
+    "are",
+    "for",
+    "was",
+    "not",
+    "but",
+    "can",
+    "has",
+    "had",
+    "its",
+    "also",
+    "been",
+    "will",
+    "our",
+    "out",
+    "all",
+    "one",
+    "two",
+    "use",
+    "used",
+    "using",
+    "a",
+    "an",
+    "of",
+    "to",
+    "in",
+    "on",
+    "is",
+    "as",
+    "by",
+    "or",
+    "it",
+    "be",
+    "we",
+    "i"
+  ]);
+
+
+  const words =
+    text
+      .toLowerCase()
+      .match(
+        /\b[a-zA-Z]{4,}\b/g
+      ) || [];
+
+
+  const frequency = {};
+
+
+  words.forEach(word => {
+
+    if (
+      !stopWords.has(word)
+    ) {
+
+      frequency[word] =
+        (frequency[word] || 0) + 1;
+
+    }
+
+  });
+
+
+  return Object.entries(
+    frequency
+  )
+    .sort(
+      (a, b) => b[1] - a[1]
+    );
+
+}
+
+
+/* =========================================================
+   TOP SENTENCES
+   ========================================================= */
+
+function topSentences(
+  text,
+  count = 5
+) {
+
+  const sentences =
+    getSentences(text);
+
+
+  if (!sentences.length) {
+    return [];
+  }
+
+
+  const frequency =
+    Object.fromEntries(
+      getWordFrequency(text)
+    );
+
+
+  const scored =
+    sentences.map(
+      (sentence, index) => {
+
+        const words =
+          sentence
+            .toLowerCase()
+            .match(
+              /\b[a-zA-Z]{3,}\b/g
+            ) || [];
+
+
+        let score = 0;
+
+
+        words.forEach(word => {
+
+          score +=
+            frequency[word] || 0;
+
+        });
+
+
+        score =
+          score /
+          Math.max(
+            1,
+            Math.sqrt(words.length)
+          );
+
+
+        return {
+          sentence,
+          score,
+          index
+        };
+
+      }
+    );
+
+
+  return scored
+    .sort(
+      (a, b) => b.score - a.score
+    )
+    .slice(0, count)
+    .sort(
+      (a, b) => a.index - b.index
+    )
+    .map(x => x.sentence);
+
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+function summaryHTML() {
+
+  if (!documentText) {
+
+    return emptyDocumentMessage();
+
+  }
+
+
+  const sentences =
+    topSentences(
+      documentText,
+      6
+    );
+
+
+  return `
+    <h3>Document Summary</h3>
+
+    <p>
+      This local analysis selected the most
+      information-dense sentences from your
+      document.
+    </p>
+
+    <ul>
+      ${sentences
+        .map(
+          sentence =>
+            `<li>${escapeHTML(
+              sentence
+            )}</li>`
+        )
+        .join("")}
+    </ul>
+  `;
+
+}
+
+
+/* =========================================================
+   KEY POINTS
+   ========================================================= */
+
+function pointsHTML() {
+
+  if (!documentText) {
+
+    return emptyDocumentMessage();
+
+  }
+
+
+  const frequency =
+    getWordFrequency(
+      documentText
+    ).slice(0, 12);
+
+
+  const sentences =
+    topSentences(
+      documentText,
+      5
+    );
+
+
+  return `
+    <h3>Key Points</h3>
+
+    <ul>
+
+      ${sentences
+        .map(
+          sentence =>
+            `<li>${escapeHTML(
+              sentence
+            )}</li>`
+        )
+        .join("")}
+
+    </ul>
+
+    <h3 style="margin-top:20px">
+      Important Terms
+    </h3>
+
+    <p>
+      ${frequency
+        .map(
+          ([word, count]) =>
+            `<span style="
+              display:inline-block;
+              margin:3px;
+              padding:5px 8px;
+              border:1px solid var(--border);
+              border-radius:8px;
+              background:var(--panel2);
+              font-size:11px;
+            ">
+              ${escapeHTML(word)}
+              ×${count}
+            </span>`
+        )
+        .join("")}
+    </p>
+  `;
+
+}
+
+
+/* =========================================================
+   QUESTIONS
+   ========================================================= */
+
+function questionHTML() {
+
+  if (!documentText) {
+
+    return emptyDocumentMessage();
+
+  }
+
+
+  const sentences =
+    topSentences(
+      documentText,
+      8
+    );
+
+
+  return `
+    <h3>Revision Questions</h3>
+
+    <ol>
+
+      ${sentences
+        .map(
+          sentence => {
+
+            const words =
+              sentence
+                .split(/\s+/)
+                .slice(0, 9)
+                .join(" ");
+
+
+            return `
+              <li>
+                What is the significance
+                of the following idea:
+                <strong>
+                  ${escapeHTML(words)}...
+                </strong>
+              </li>
+            `;
+
+          }
+        )
+        .join("")}
+
+    </ol>
+
+    <p style="
+      margin-top:15px;
+      color:var(--muted);
+    ">
+      These questions are generated locally
+      from the document's important sentences.
+    </p>
+  `;
+
+}
+
+
+/* =========================================================
+   EXPLAIN
+   ========================================================= */
+
+function explainHTML() {
+
+  if (!documentText) {
+
+    return emptyDocumentMessage();
+
+  }
+
+
+  const sentences =
+    topSentences(
+      documentText,
+      5
+    );
+
+
+  return `
+    <h3>Simple Explanation</h3>
+
+    <p>
+      Here are the central ideas in simpler
+      language:
+    </p>
+
+    <ul>
+
+      ${sentences
+        .map(
+          sentence =>
+            `<li>
+              The document explains:
+              <strong>
+                ${escapeHTML(
+                  simplifySentence(
+                    sentence
+                  )
+                )}
+              </strong>
+            </li>`
+        )
+        .join("")}
+
+    </ul>
+
+    <p style="
+      margin-top:15px;
+      color:var(--muted);
+    ">
+      This is a local text simplification,
+      not an external AI-generated explanation.
+    </p>
+  `;
+
+}
+
+
+/* =========================================================
+   SIMPLE SENTENCE
+   ========================================================= */
+
+function simplifySentence(sentence) {
+
+  return sentence
+    .replace(
+      /\b(utilize|utilizes|utilized)\b/gi,
+      "use"
+    )
+    .replace(
+      /\bapproximately\b/gi,
+      "about"
+    )
+    .replace(
+      /\bdemonstrates\b/gi,
+      "shows"
+    )
+    .replace(
+      /\bsubsequently\b/gi,
+      "later"
+    )
+    .replace(
+      /\btherefore\b/gi,
+      "so"
+    )
+    .replace(
+      /\badditional\b/gi,
+      "extra"
+    );
+
+}
+
+
+/* =========================================================
+   AI BUTTONS
+   ========================================================= */
+
+document
+  .querySelectorAll(".ai-btn")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const action =
+          button.dataset.action;
+
+
+        if (!documentText) {
+
+          showToast(
+            "Upload a document first."
+          );
+
+          return;
+        }
+
+
+        resultStatus.textContent =
+          "Analyzing";
+
+
+        resultBody.innerHTML =
+          `<div style="
+            color:var(--muted);
+            text-align:center;
+            padding:50px 10px;
+          ">
+            Processing locally...
+          </div>`;
+
+
+        setTimeout(() => {
+
+          if (action === "summary") {
+
+            resultBody.innerHTML =
+              summaryHTML();
+
+          }
+
+          if (action === "points") {
+
+            resultBody.innerHTML =
+              pointsHTML();
+
+          }
+
+          if (action === "questions") {
+
+            resultBody.innerHTML =
+              questionHTML();
+
+          }
+
+          if (action === "explain") {
+
+            resultBody.innerHTML =
+              explainHTML();
+
+          }
+
+
+          resultStatus.textContent =
+            "Complete";
+
+
+          showToast(
+            "Analysis complete."
+          );
+
+        }, 250);
+
+      }
+
+    );
+
+  });
+
+
+/* =========================================================
+   ASK QUESTION
+   ========================================================= */
+
+askQuestion.addEventListener(
+  "click",
+  answerQuestion
+);
+
+
+questionInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      event.preventDefault();
+
+      answerQuestion();
+
+    }
+
+  }
+);
+
+
+function answerQuestion() {
+
+  const question =
+    questionInput.value.trim();
+
+
+  if (!documentText) {
+
+    showToast(
+      "Upload a document first."
+    );
+
+    return;
+
+  }
+
+
+  if (!question) {
+
+    showToast(
+      "Type a question first."
+    );
+
+    questionInput.focus();
+
+    return;
+
+  }
+
+
+  const questionWords =
+    question
+      .toLowerCase()
+      .match(
+        /\b[a-zA-Z]{3,}\b/g
+      ) || [];
+
+
+  const sentences =
+    getSentences(
+      documentText
+    );
+
+
+  const scored =
+    sentences.map(
+      sentence => {
+
+        const lower =
+          sentence.toLowerCase();
+
+
+        let score = 0;
+
+
+        questionWords.forEach(
+          word => {
+
+            if (
+              lower.includes(word)
+            ) {
+
+              score++;
+
+            }
+
+          }
+        );
+
+
+        return {
+          sentence,
+          score
+        };
+
+      }
+    )
+    .filter(
+      item => item.score > 0
+    )
+    .sort(
+      (a, b) =>
+        b.score - a.score
+    )
+    .slice(0, 4);
+
+
+  if (!scored.length) {
+
+    resultBody.innerHTML = `
+      <h3>No direct match found</h3>
+
+      <p>
+        I couldn't find a sentence containing
+        the main words from your question.
+      </p>
+
+      <p style="
+        margin-top:12px;
+        color:var(--muted);
+      ">
+        Try asking about a specific topic,
+        person, concept or term in the document.
+      </p>
+    `;
+
+  } else {
+
+    resultBody.innerHTML = `
+      <h3>
+        Relevant Information
+      </h3>
+
+      <p style="
+        color:var(--muted);
+        margin-bottom:12px;
+      ">
+        These parts of the document match
+        your question:
+      </p>
+
+      <ul>
+
+        ${scored
+          .map(
+            item =>
+              `<li>
+                ${escapeHTML(
+                  item.sentence
+                )}
+              </li>`
+          )
+          .join("")}
+
+      </ul>
+
+      <p style="
+        margin-top:15px;
+        color:var(--muted);
+      ">
+        This answer was generated by local
+        document search.
+      </p>
+    `;
+
+  }
+
+
+  resultStatus.textContent =
+    "Answered";
+
+
+  showToast(
+    "Question analyzed."
+  );
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+searchBtn.addEventListener(
+  "click",
+  () => {
+
+    searchModal.classList.add(
+      "active"
+    );
+
+    searchInput.value = "";
+
+    searchResults.innerHTML =
+      `<p style="
+        color:var(--muted);
+        padding:20px;
+        text-align:center;
+      ">
+        Type something to search.
+      </p>`;
+
+    setTimeout(
+      () => searchInput.focus(),
+      50
+    );
+
+  }
+);
+
+
+closeSearch.addEventListener(
+  "click",
+  closeSearchModal
+);
+
+
+searchModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target === searchModal
+    ) {
+
+      closeSearchModal();
+
+    }
+
+  }
+);
+
+
+function closeSearchModal() {
+
+  searchModal.classList.remove(
+    "active"
+  );
+
+}
+
+
+searchInput.addEventListener(
+  "input",
+  () => {
+
+    const query =
+      searchInput.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!query) {
+
+      searchResults.innerHTML =
+        `<p style="
+          color:var(--muted);
+          padding:20px;
+          text-align:center;
+        ">
+          Type something to search.
+        </p>`;
+
+      return;
+
+    }
+
+
+    if (!documentText) {
+
+      searchResults.innerHTML =
+        `<p style="
+          color:var(--muted);
+          padding:20px;
+          text-align:center;
+        ">
+          Upload a document first.
+        </p>`;
+
+      return;
+
+    }
+
+
+    const sentences =
+      getSentences(
+        documentText
+      );
+
+
+    const matches =
+      sentences
+        .filter(
+          sentence =>
+            sentence
+              .toLowerCase()
+              .includes(query)
+        )
+        .slice(0, 20);
+
+
+    if (!matches.length) {
+
+      searchResults.innerHTML =
+        `<p style="
+          color:var(--muted);
+          padding:20px;
+          text-align:center;
+        ">
+          No matches found.
+        </p>`;
+
+      return;
+
+    }
+
+
+    searchResults.innerHTML =
+      matches
+        .map(
+          sentence =>
+            `<div class="search-result">
+              <strong>
+                Match found
+              </strong>
+
+              <p>
+                ${highlight(
+                  sentence,
+                  query
+                )}
+              </p>
+            </div>`
+        )
+        .join("");
+
+  }
+);
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+exportBtn.addEventListener(
+  "click",
+  () => {
+
+    if (!documentText) {
+
+      showToast(
+        "Load a document first."
+      );
+
+      return;
+
+    }
+
+
+    const summary =
+      topSentences(
+        documentText,
+        6
+      );
+
+
+    const points =
+      topSentences(
+        documentText,
+        8
+      );
+
+
+    const content = `
+
+HORIZON DOCUMENT AI
+===================
+
+DOCUMENT
+${currentFile
+  ? currentFile.name
+  : "Unknown"}
+
+STATISTICS
+----------
+
+Words: ${wordCount.textContent}
+Characters: ${charCount.textContent}
+Sentences: ${sentenceCount.textContent}
+Reading time: ${readingTime.textContent}
+
+SUMMARY
+-------
+
+${summary
+  .map(
+    x => "- " + x
+  )
+  .join("\n")}
+
+KEY INFORMATION
+---------------
+
+${points
+  .map(
+    x => "- " + x
+  )
+  .join("\n")}
+
+Generated locally by HORIZON Document AI.
+`;
+
+
+    const blob =
+      new Blob(
+        [content],
+        {
+          type: "text/plain"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const link =
+      document.createElement("a");
+
+
+    link.href = url;
+
+
+    link.download =
+      `${
+        currentFile
+          ? currentFile.name
+              .replace(
+                /\.[^/.]+$/,
+                ""
+              )
+          : "document"
+      }-horizon-analysis.txt`;
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+      "Analysis exported."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   RECENT DOCUMENTS
+   ========================================================= */
+
+function saveRecent(name) {
+
+  let recent =
+    JSON.parse(
+      localStorage.getItem(
+        "horizon-recent-documents"
+      ) || "[]"
+    );
+
+
+  recent =
+    recent.filter(
+      item => item.name !== name
+    );
+
+
+  recent.unshift({
+    name,
+    time: new Date().toLocaleString()
+  });
+
+
+  recent =
+    recent.slice(0, 5);
+
+
+  localStorage.setItem(
+    "horizon-recent-documents",
+    JSON.stringify(recent)
+  );
+
+
+  renderRecent();
+
+}
+
+
+function renderRecent() {
+
+  const recent =
+    JSON.parse(
+      localStorage.getItem(
+        "horizon-recent-documents"
+      ) || "[]"
+    );
+
+
+  if (!recent.length) {
+
+    recentList.innerHTML =
+      `<div style="
+        color:var(--muted);
+        font-size:11px;
+      ">
+        No recent documents.
+      </div>`;
+
+    return;
+
+  }
+
+
+  recentList.innerHTML =
+    recent
+      .map(
+        item =>
+          `<div class="recent-item">
+
+            <span>
+              ▤ ${escapeHTML(
+                item.name
+              )}
+            </span>
+
+            <small>
+              ${escapeHTML(
+                item.time
+              )}
+            </small>
+
+          </div>`
+      )
+      .join("");
+
+}
+
+
+renderRecent();
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+resetBtn.addEventListener(
+  "click",
+  resetDocument
+);
+
+
+function resetDocument() {
+
+  currentFile = null;
+
+  documentText = "";
+
+  fileInput.value = "";
+
+  fileName.textContent =
+    "No document loaded";
+
+  fileType.textContent =
+    "—";
+
+  wordCount.textContent =
+    "0";
+
+  charCount.textContent =
+    "0";
+
+  sentenceCount.textContent =
+    "0";
+
+  readingTime.textContent =
+    "0 min";
+
+
+  reader.className =
+    "reader empty";
+
+
+  reader.innerHTML =
+    `<div>
+
+      <strong>
+        Your document will appear here
+      </strong>
+
+      <p style="margin-top:8px">
+        Upload a file to begin.
+      </p>
+
+    </div>`;
+
+
+  resultBody.innerHTML =
+    `<div style="
+      color:var(--muted);
+      text-align:center;
+      padding:60px 10px;
+    ">
+      Upload a document and choose an AI action.
+    </div>`;
+
+
+  resultStatus.textContent =
+    "Waiting";
+
+
+  questionInput.value = "";
+
+
+  showToast(
+    "Document workspace reset."
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+   ========================================================= */
+
+function highlight(
+  text,
+  query
+) {
+
+  const escaped =
+    escapeHTML(text);
+
+
+  const escapedQuery =
+    query.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+
+
+  return escaped.replace(
+    new RegExp(
+      `(${escapedQuery})`,
+      "gi"
+    ),
+    "<mark>$1</mark>"
+  );
+
+}
+
+
+/* =========================================================
+   EMPTY DOCUMENT
+   ========================================================= */
+
+function emptyDocumentMessage() {
+
+  return `
+    <div style="
+      color:var(--muted);
+      text-align:center;
+      padding:40px 10px;
+    ">
+      Upload a document first.
+    </div>
+  `;
+
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.ctrlKey &&
+      event.key.toLowerCase() === "o"
+    ) {
+
+      event.preventDefault();
+
+      fileInput.click();
+
+    }
+
+
+    if (
+      event.key === "Escape" &&
+      searchModal.classList.contains(
+        "active"
+      )
+    ) {
+
+      closeSearchModal();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>

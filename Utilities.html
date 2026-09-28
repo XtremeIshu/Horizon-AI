@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HORIZON | Utilities</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="icon" type="image/x-icon" href="/Skill Mela/Homepage/Images/Logo.jpg">
+
+
+  <!-- Required for Notes → PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <link rel="stylesheet" href="Utilities.css">
+</head>
+
+<body>
+
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+  <div class="grid-overlay"></div>
+
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+    <a href="/Skill Mela/Homepage/index.html" class="brand">
+        <img
+            src="/Skill Mela/Homepage/Images/Logo.jpg"
+            alt="HORIZON Logo"
+        >
+
+        <span>HORIZON</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+
+        <a href="/Skill Mela/Homepage/index.html">
+            Home
+        </a>
+
+        <a href="/Skill Mela/Document AI/Document.html">
+            Document
+        </a>
+
+        <a href="/Skill Mela/Weather/Weather.html">
+            Weather
+        </a>
+
+        <a href="/Skill Mela/Study AI/Study.html">
+            Study
+        </a>
+
+        <a href="/Skill Mela/ChatBot/ChatBot.html" class="nav-ctab">
+            Launch AI <span>↗</span>
+        </a>
+
+    </nav>
+
+    <!-- DARK / LIGHT -->
+    <button
+        class="theme-btn"
+        id="themeBtn"
+        title="Toggle theme"
+        aria-label="Toggle dark and light theme"
+    >
+        ☀
+    </button>
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+</header>
+
+
+  <main class="page">
+
+
+    <!-- PAGE HEADER -->
+    <section class="page-header reveal">
+
+      <span class="section-kicker">
+        HORIZON / UTILITIES
+      </span>
+
+      <h1>
+        Powerful tools.
+        <span>One workspace.</span>
+      </h1>
+
+      <p>
+        Everyday utilities with HORIZON's futuristic
+        blue and cyan interface.
+      </p>
+
+    </section>
+
+
+    <section class="utilities-grid">
+
+
+      <!-- =================================================
+           CALCULATOR
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            +
+          </div>
+
+          <div>
+            <h2>Calculator</h2>
+
+            <span>
+              QUICK CALCULATIONS
+            </span>
+          </div>
+
+        </div>
+
+
+        <input
+          type="text"
+          id="calcDisplay"
+          class="calc-display"
+          value="0"
+          readonly
+        >
+
+
+        <div class="calculator">
+
+          <button
+            class="calc-btn clear"
+            onclick="clearCalc()"
+          >
+            AC
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('%')"
+          >
+            %
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="deleteCalc()"
+          >
+            ⌫
+          </button>
+
+          <button
+            class="calc-btn operator"
+            onclick="appendCalc('/')"
+          >
+            ÷
+          </button>
+
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('7')"
+          >
+            7
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('8')"
+          >
+            8
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('9')"
+          >
+            9
+          </button>
+
+          <button
+            class="calc-btn operator"
+            onclick="appendCalc('*')"
+          >
+            ×
+          </button>
+
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('4')"
+          >
+            4
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('5')"
+          >
+            5
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('6')"
+          >
+            6
+          </button>
+
+          <button
+            class="calc-btn operator"
+            onclick="appendCalc('-')"
+          >
+            −
+          </button>
+
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('1')"
+          >
+            1
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('2')"
+          >
+            2
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('3')"
+          >
+            3
+          </button>
+
+          <button
+            class="calc-btn operator"
+            onclick="appendCalc('+')"
+          >
+            +
+          </button>
+
+
+          <button
+            class="calc-btn zero"
+            onclick="appendCalc('0')"
+          >
+            0
+          </button>
+
+          <button
+            class="calc-btn"
+            onclick="appendCalc('.')"
+          >
+            .
+          </button>
+
+          <button
+            class="calc-btn equals"
+            onclick="calculate()"
+          >
+            =
+          </button>
+
+        </div>
+
+
+        <button
+          class="reset-tool-btn"
+          onclick="clearCalc()"
+        >
+          ↻ Reset Calculator
+        </button>
+
+      </article>
+
+
+      <!-- =================================================
+           UNIT CONVERTER
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            ⇄
+          </div>
+
+          <div>
+
+            <h2>
+              Unit Converter
+            </h2>
+
+            <span>
+              MORE CATEGORIES • SWAP • INSTANT
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="converter">
+
+
+          <label class="field-label">
+            Category
+          </label>
+
+          <select id="conversionCategory"></select>
+
+
+          <div class="conversion-grid">
+
+            <div>
+
+              <label class="field-label">
+                From
+              </label>
+
+              <select id="fromUnit"></select>
+
+            </div>
+
+
+            <button
+              class="swap-btn"
+              id="swapUnitsBtn"
+              title="Swap units"
+            >
+              ⇄
+            </button>
+
+
+            <div>
+
+              <label class="field-label">
+                To
+              </label>
+
+              <select id="toUnit"></select>
+
+            </div>
+
+          </div>
+
+
+          <label class="field-label">
+            Value
+          </label>
+
+
+          <div class="convert-input-row">
+
+            <input
+              type="number"
+              id="convertInput"
+              placeholder="Enter value"
+              step="any"
+            >
+
+            <button
+              class="mini-action-btn"
+              id="convertNowBtn"
+            >
+              Convert
+            </button>
+
+          </div>
+
+
+          <!-- QUICK VALUES -->
+
+          <div class="quick-convert-row">
+
+            <button data-value="1">
+              1
+            </button>
+
+            <button data-value="10">
+              10
+            </button>
+
+            <button data-value="100">
+              100
+            </button>
+
+            <button data-value="1000">
+              1000
+            </button>
+
+          </div>
+
+
+          <!-- RESULT -->
+
+          <div
+            class="result-box"
+            id="conversionResult"
+          >
+            Result will appear here
+          </div>
+
+
+          <!-- EXTRA INFORMATION -->
+
+          <div class="converter-extra">
+
+            <div>
+
+              <span>
+                Accuracy
+              </span>
+
+              <strong id="converterAccuracy">
+                Auto
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Category
+              </span>
+
+              <strong id="converterCategoryLabel">
+                Length
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- RESET -->
+
+          <button
+            class="reset-tool-btn"
+            id="resetConverterBtn"
+          >
+            ↻ Reset Converter
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           TIMER
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            ◷
+          </div>
+
+          <div>
+
+            <h2>
+              Timer
+            </h2>
+
+            <span>
+              FOCUS TIMER
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="timer">
+
+          <div
+            id="timerDisplay"
+            class="timer-display"
+          >
+            05:00
+          </div>
+
+
+          <div class="timer-inputs">
+
+            <input
+              type="number"
+              id="timerMinutes"
+              min="0"
+              value="5"
+              placeholder="Minutes"
+            >
+
+            <input
+              type="number"
+              id="timerSeconds"
+              min="0"
+              max="59"
+              value="0"
+              placeholder="Seconds"
+            >
+
+          </div>
+
+
+          <div class="button-row">
+
+            <button
+              class="primary-btn"
+              onclick="startTimer()"
+            >
+              Start
+            </button>
+
+            <button
+              class="secondary-btn"
+              onclick="pauseTimer()"
+            >
+              Pause
+            </button>
+
+          </div>
+
+
+          <button
+            class="reset-tool-btn"
+            onclick="resetTimer()"
+          >
+            ↻ Reset Timer
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           STOPWATCH
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            ⏱
+          </div>
+
+          <div>
+
+            <h2>
+              Stopwatch
+            </h2>
+
+            <span>
+              MILLISECONDS ENABLED
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="stopwatch">
+
+          <div
+            class="stopwatch-display"
+            id="stopwatchDisplay"
+          >
+            00:00:00.000
+          </div>
+
+
+          <div
+            class="stopwatch-lap"
+            id="lapDisplay"
+          >
+            Last lap: --
+          </div>
+
+
+          <div class="button-row">
+
+            <button
+              class="primary-btn"
+              onclick="startStopwatch()"
+            >
+              Start
+            </button>
+
+            <button
+              class="secondary-btn"
+              onclick="lapStopwatch()"
+            >
+              Lap
+            </button>
+
+            <button
+              class="secondary-btn"
+              onclick="pauseStopwatch()"
+            >
+              Pause
+            </button>
+
+          </div>
+
+
+          <button
+            class="reset-tool-btn"
+            onclick="resetStopwatch()"
+          >
+            ↻ Reset Stopwatch
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           PERCENTAGE
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            %
+          </div>
+
+          <div>
+
+            <h2>
+              Percentage
+            </h2>
+
+            <span>
+              FAST MATH
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="percentage-tool">
+
+          <label class="percentage-line">
+
+            What is
+
+            <input
+              type="number"
+              id="percentValue"
+              placeholder="20"
+              step="any"
+            >
+
+            %
+
+            of
+
+            <input
+              type="number"
+              id="percentTotal"
+              placeholder="500"
+              step="any"
+            >
+
+            ?
+
+          </label>
+
+
+          <button
+            class="primary-btn full-btn"
+            onclick="calculatePercentage()"
+          >
+            Calculate
+          </button>
+
+
+          <div
+            class="result-box"
+            id="percentageResult"
+          >
+            Result will appear here
+          </div>
+
+
+          <button
+            class="reset-tool-btn"
+            onclick="resetPercentage()"
+          >
+            ↻ Reset Percentage
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           NOTES
+      ================================================== -->
+
+      <article class="utility-card reveal">
+
+        <div class="utility-header">
+
+          <div class="utility-icon">
+            ✦
+          </div>
+
+          <div>
+
+            <h2>
+              Quick Notes
+            </h2>
+
+            <span>
+              SAVE • PDF • RESET
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <input
+          id="notesTitle"
+          class="notes-title"
+          type="text"
+          placeholder="Note title"
+          value="HORIZON Notes"
+        >
+
+
+        <textarea
+          id="notes"
+          class="notes"
+          placeholder="Write something here..."
+        ></textarea>
+
+
+        <div class="button-row">
+
+          <button
+            class="primary-btn"
+            onclick="saveNotes()"
+          >
+            Save
+          </button>
+
+          <button
+            class="secondary-btn"
+            onclick="downloadNotesPDF()"
+          >
+            Download PDF
+          </button>
+
+        </div>
+
+
+        <div class="button-row">
+
+          <button
+            class="secondary-btn"
+            onclick="clearNotes()"
+          >
+            Clear
+          </button>
+
+          <button
+            class="reset-tool-btn inline-reset"
+            onclick="resetNotes()"
+          >
+            ↻ Reset
+          </button>
+
+        </div>
+
+
+        <p
+          class="saved-message"
+          id="savedMessage"
+        ></p>
+
+      </article>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section
+      class="about-section reveal"
+      id="about"
+    >
+
+      <span class="section-kicker">
+        HORIZON UTILITIES
+      </span>
+
+      <h2>
+        More tools.
+        More possibilities.
+      </h2>
+
+      <p>
+        Add more everyday tools here as HORIZON grows.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <script src="utilities.js"></script>
+
+</body>
+
+</html>

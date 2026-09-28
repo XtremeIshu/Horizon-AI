@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HORIZON — Developer Desk</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="developer-desk.css">
+    <link rel="icon" type="image/x-icon" href="/Skill Mela/Homepage/Images/Logo.jpeg">
+</head>
+
+<body>
+
+    <!-- =========================
+     HORIZON NAVBAR
+========================= -->
+
+<header class="navbar">
+
+  <a href="#home" class="brand">
+    <img
+      src="/Skill Mela/Homepage/Images/Logo.jpeg"
+      alt="HORIZON Logo"
+    >
+
+    <span class="brand-name">
+      HORIZON
+    </span>
+  </a>
+
+  <nav class="nav-links" id="navLinks">
+
+    <a href="/Skill Mela/Homepage/index.html">
+      Home
+    </a>
+
+    <a href="/Skill Mela/Utilities/Utilities.html">
+      AI Tools
+    </a>
+
+    <a href="/Skill Mela/Weather/Weather.html">
+      Weather
+    </a>
+
+    <a href="/Skill Mela/Document AI/Document.html">
+      Document
+    </a>
+
+    <a href="/Skill Mela/Study AI/Study.html">
+      Study
+    </a>
+
+  </nav>
+
+  <a
+    href="/Skill Mela/ChatBot/ChatBot.html"
+    class="nav-cta"
+  >
+    Launch AI <span>↗</span>
+  </a>
+
+  <button
+    class="menu-btn"
+    id="menuBtn"
+    aria-label="Open Menu"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
+
+</header>
+    <div class="nav-actions">
+        <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle theme">◐</button>
+    </div>
+</header>
+
+<main class="developer-page">
+
+    <section class="page-header">
+        <span class="eyebrow">HORIZON DEVELOPER TOOLS</span>
+
+        <h1>
+            Developer <span>Desk</span>
+        </h1>
+
+        <p>
+            A compact workspace for coding, testing, formatting,
+            color work, snippets and developer notes.
+        </p>
+    </section>
+
+    <section class="desk-grid">
+
+        <article class="desk-card editor-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">&lt;/&gt;</span>
+
+                    <div>
+                        <h2>Code Editor</h2>
+                        <p>Write and test JavaScript</p>
+                    </div>
+                </div>
+
+                <div class="editor-actions">
+                    <button type="button" onclick="runCode()">Run</button>
+                    <button type="button" onclick="copyCode()">Copy</button>
+                    <button type="button" onclick="clearEditor()">Clear</button>
+                </div>
+            </div>
+
+            <textarea id="codeEditor" spellcheck="false">const message = "Hello from HORIZON!";
+
+console.log(message);</textarea>
+
+            <div class="output-panel">
+                <div class="output-title">OUTPUT</div>
+                <pre id="codeOutput">Ready.</pre>
+            </div>
+        </article>
+
+        <article class="desk-card terminal-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">$</span>
+
+                    <div>
+                        <h2>Terminal</h2>
+                        <p>Quick development commands</p>
+                    </div>
+                </div>
+
+                <button type="button" onclick="clearTerminal()">Clear</button>
+            </div>
+
+            <div id="terminalOutput" class="terminal-output">
+                <div>HORIZON Developer Terminal</div>
+                <div>Type <strong>help</strong> to begin.</div>
+            </div>
+
+            <div class="terminal-input">
+                <span>&gt;</span>
+
+                <input
+                    id="terminalInput"
+                    type="text"
+                    placeholder="Type a command..."
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+            </div>
+        </article>
+
+        <article class="desk-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">{ }</span>
+
+                    <div>
+                        <h2>JSON Formatter</h2>
+                        <p>Format or minify JSON</p>
+                    </div>
+                </div>
+            </div>
+
+            <textarea
+                id="jsonInput"
+                class="tool-area"
+                spellcheck="false"
+                placeholder='{"name":"HORIZON","version":1}'
+            ></textarea>
+
+            <div class="button-row">
+                <button class="primary-btn" type="button" onclick="formatJSON()">Format</button>
+                <button class="secondary-btn" type="button" onclick="minifyJSON()">Minify</button>
+                <button class="secondary-btn" type="button" onclick="copyJSON()">Copy</button>
+                <button class="secondary-btn" type="button" onclick="resetJSON()">Reset</button>
+            </div>
+
+            <p id="jsonStatus" class="tool-status" aria-live="polite"></p>
+        </article>
+
+        <article class="desk-card color-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">◉</span>
+
+                    <div>
+                        <h2>Color Picker</h2>
+                        <p>Generate color values</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="colorPreview" class="color-preview"></div>
+
+            <input
+                type="color"
+                id="colorPicker"
+                value="#1F9FFF"
+                aria-label="Choose a color"
+            >
+
+            <div class="color-values">
+                <button type="button" class="value-box" onclick="copyColorValue('hex')">
+                    <span>HEX</span>
+                    <strong id="hexValue">#1F9FFF</strong>
+                </button>
+
+                <button type="button" class="value-box" onclick="copyColorValue('rgb')">
+                    <span>RGB</span>
+                    <strong id="rgbValue">31, 159, 255</strong>
+                </button>
+            </div>
+
+            <p id="colorStatus" class="tool-status" aria-live="polite"></p>
+        </article>
+
+        <article class="desk-card notes-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">N</span>
+
+                    <div>
+                        <h2>Developer Notes</h2>
+                        <p>Save ideas and commands locally</p>
+                    </div>
+                </div>
+            </div>
+
+            <textarea
+                id="developerNotes"
+                class="tool-area notes-area"
+                spellcheck="false"
+                placeholder="Write your development notes..."
+            ></textarea>
+
+            <div class="button-row">
+                <button class="primary-btn" type="button" onclick="saveDeveloperNotes()">Save</button>
+                <button class="secondary-btn" type="button" onclick="clearDeveloperNotes()">Clear</button>
+                <button class="secondary-btn" type="button" onclick="resetDeveloperNotes()">Reset</button>
+            </div>
+
+            <p id="notesStatus" class="tool-status" aria-live="polite"></p>
+        </article>
+
+        <article class="desk-card">
+            <div class="card-header">
+                <div class="card-heading">
+                    <span class="card-icon">S</span>
+
+                    <div>
+                        <h2>Quick Snippets</h2>
+                        <p>Useful developer templates</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="snippet" type="button" onclick="insertSnippet('console.log')">
+                <span>console.log()</span>
+                <small>JavaScript</small>
+            </button>
+
+            <button class="snippet" type="button" onclick="insertSnippet('arrow')">
+                <span>Arrow Function</span>
+                <small>JavaScript</small>
+            </button>
+
+            <button class="snippet" type="button" onclick="insertSnippet('fetch')">
+                <span>Fetch API</span>
+                <small>JavaScript</small>
+            </button>
+
+            <button class="snippet" type="button" onclick="insertSnippet('trycatch')">
+                <span>Try / Catch</span>
+                <small>JavaScript</small>
+            </button>
+        </article>
+
+    </section>
+</main>
+
+<script src="developer-desk.js"></script>
+</body>
+</html>

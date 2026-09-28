@@ -1,0 +1,1505 @@
+/* =========================================================
+   HORIZON WEATHER
+   Midnight Navy + Electric Blue + Cyan
+========================================================= */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+
+/* =========================================================
+   THEME VARIABLES
+========================================================= */
+
+:root {
+  --page-bg: #030916;
+
+  --card-bg: #071426;
+  --card-bg-2: #0a1b31;
+
+  --input-bg: #081a2d;
+
+  --text: #f5f9ff;
+  --muted: #91abc6;
+
+  --blue: #1f9fff;
+  --cyan: #39c8ff;
+  --deep-blue: #0a63b9;
+
+  --border: rgba(68, 166, 255, 0.18);
+  --border-hover: rgba(57, 200, 255, 0.45);
+
+  --shadow:
+    0 25px 70px rgba(0, 0, 0, 0.35);
+
+  --soft-shadow:
+    0 10px 30px rgba(31, 159, 255, 0.10);
+
+  --danger: #ff6073;
+}
+
+
+/* =========================================================
+   LIGHT THEME
+========================================================= */
+
+body.light-theme {
+  --page-bg: #f3f9fd;
+
+  --card-bg: #ffffff;
+  --card-bg-2: #edf7fc;
+
+  --input-bg: #ffffff;
+
+  --text: #0b2034;
+  --muted: #647d95;
+
+  --blue: #087fd1;
+  --cyan: #10bce8;
+  --deep-blue: #075b96;
+
+  --border: rgba(8, 127, 209, 0.14);
+  --border-hover: rgba(8, 127, 209, 0.38);
+
+  --shadow:
+    0 22px 60px rgba(33, 91, 124, 0.10);
+
+  --soft-shadow:
+    0 10px 30px rgba(8, 127, 209, 0.08);
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  color: var(--text);
+
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(57, 200, 255, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(31, 159, 255, 0.08),
+      transparent 30%
+    ),
+    var(--page-bg);
+
+  transition:
+    background 0.35s ease,
+    color 0.35s ease;
+}
+
+
+body.light-theme {
+  background:
+    radial-gradient(
+      circle at 50% -15%,
+      rgba(16, 188, 232, 0.17),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(8, 127, 209, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #fbfdff 0%,
+      #eef7fc 100%
+    );
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.container {
+  flex-grow: 1;
+
+  width: 100%;
+  max-width: 425px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--card-bg),
+      var(--card-bg-2)
+    );
+
+  border:
+    1px solid
+    var(--border);
+
+  box-shadow:
+    var(--shadow);
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+/* Light glass effect */
+
+body.light-theme .container {
+  background:
+    rgba(255,255,255,0.90);
+
+  backdrop-filter:
+    blur(20px);
+
+  box-shadow:
+    var(--shadow);
+}
+
+
+/* =========================================================
+   TOP GLOW
+========================================================= */
+
+.container::before {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  top: -140px;
+  right: -70px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(57, 200, 255, 0.12);
+
+  filter:
+    blur(45px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SEARCH SECTION
+========================================================= */
+
+.search-section {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 25px;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   SEARCH INPUT WRAPPER
+========================================================= */
+
+.search-section .input-wrapper {
+  height: 54px;
+
+  width: 100%;
+
+  position: relative;
+}
+
+
+/* Search icon */
+
+.search-section .input-wrapper span {
+  position: absolute;
+
+  top: 50%;
+  left: 17px;
+
+  transform:
+    translateY(-50%);
+
+  pointer-events: none;
+
+  color:
+    var(--blue);
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   SEARCH INPUT
+========================================================= */
+
+.search-section .search-input {
+  height: 100%;
+  width: 100%;
+
+  outline: none;
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  border-radius: 12px;
+
+  text-transform: uppercase;
+
+  padding:
+    0 20px 0 50px;
+
+  border:
+    1px solid
+    var(--border);
+
+  color:
+    var(--text);
+
+  background:
+    var(--input-bg);
+
+  transition:
+    0.25s ease;
+}
+
+
+/* Focus */
+
+.search-section .search-input:focus {
+
+  border-color:
+    var(--blue);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(
+      31,
+      159,
+      255,
+      0.08
+    );
+}
+
+
+/* Placeholder */
+
+.search-section .search-input::placeholder {
+  text-transform: none;
+
+  color:
+    var(--muted);
+}
+
+
+/* =========================================================
+   LOCATION BUTTON
+========================================================= */
+
+.search-section .location-button {
+  height: 54px;
+
+  width: 56px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--card-bg-2),
+      var(--input-bg)
+    );
+
+  color:
+    var(--blue);
+
+  border:
+    1px solid
+    var(--border);
+
+  transition:
+    0.3s ease;
+}
+
+
+.search-section .location-button:hover {
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--cyan),
+      var(--blue)
+    );
+
+  border-color:
+    transparent;
+
+  box-shadow:
+    0 8px 25px
+    rgba(
+      31,
+      159,
+      255,
+      0.22
+    );
+
+  transform:
+    translateY(-2px);
+}
+
+
+.search-section .location-button span {
+  font-size:
+    1.3rem;
+}
+
+
+/* =========================================================
+   NO RESULTS
+========================================================= */
+
+.no-results {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 100%;
+
+  display: none;
+
+  padding: 40px;
+
+  text-align: center;
+
+  align-items: center;
+
+  flex-direction: column;
+
+  transform:
+    translate(-50%, -50%);
+
+  transition:
+    0.2s ease;
+}
+
+
+body.show-no-results .no-results {
+  display:
+    flex;
+}
+
+
+.no-results .title {
+
+  color:
+    var(--text);
+
+  font-size:
+    1.2rem;
+
+  font-weight:
+    700;
+
+  margin:
+    25px 0 15px;
+}
+
+
+.no-results .message {
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    500;
+
+  line-height:
+    23px;
+}
+
+
+body.show-no-results .weather-section {
+  visibility:
+    hidden;
+}
+
+
+/* =========================================================
+   CURRENT WEATHER
+========================================================= */
+
+.weather-section .current-weather {
+
+  display:
+    flex;
+
+  padding:
+    20px 0 50px;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+}
+
+
+/* =========================================================
+   WEATHER ICON
+========================================================= */
+
+.current-weather .weather-icon {
+
+  width:
+    140px;
+
+  aspect-ratio:
+    1;
+
+  object-fit:
+    contain;
+
+  filter:
+    drop-shadow(
+      0 12px 25px
+      rgba(
+        57,
+        200,
+        255,
+        0.15
+      )
+    );
+
+  animation:
+    weatherFloat 4s
+    ease-in-out
+    infinite;
+}
+
+
+@keyframes weatherFloat {
+
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-6px);
+  }
+}
+
+
+/* =========================================================
+   TEMPERATURE
+========================================================= */
+
+.current-weather .temperature {
+
+  font-size:
+    3.38rem;
+
+  margin:
+    23px 0;
+
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  font-weight:
+    600;
+
+  color:
+    var(--text);
+}
+
+
+.current-weather .temperature span {
+
+  font-size:
+    1.56rem;
+
+  font-weight:
+    500;
+
+  margin:
+    5px 0 0 2px;
+
+  color:
+    var(--muted);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.current-weather .description {
+
+  color:
+    var(--muted);
+
+  font-weight:
+    500;
+
+  font-size:
+    1.25rem;
+
+  text-transform:
+    capitalize;
+}
+
+
+/* =========================================================
+   HOURLY WEATHER
+========================================================= */
+
+.hourly-weather {
+
+  padding:
+    16px 25px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.015
+    );
+}
+
+
+/* =========================================================
+   HOURLY LIST
+========================================================= */
+
+.hourly-weather .weather-list {
+
+  display:
+    flex;
+
+  gap:
+    35px;
+
+  overflow-x:
+    auto;
+
+  padding-bottom:
+    16px;
+
+  margin-bottom:
+    -16px;
+
+  scrollbar-width:
+    thin;
+
+  scrollbar-color:
+    transparent
+    transparent;
+}
+
+
+.hourly-weather:hover .weather-list {
+
+  scrollbar-color:
+    var(--blue)
+    transparent;
+}
+
+
+/* Chrome scrollbar */
+
+.hourly-weather
+.weather-list::-webkit-scrollbar {
+
+  height:
+    5px;
+}
+
+
+.hourly-weather
+.weather-list::-webkit-scrollbar-track {
+
+  background:
+    transparent;
+}
+
+
+.hourly-weather
+.weather-list::-webkit-scrollbar-thumb {
+
+  background:
+    rgba(
+      31,
+      159,
+      255,
+      0.25
+    );
+
+  border-radius:
+    20px;
+}
+
+
+/* =========================================================
+   WEATHER ITEM
+========================================================= */
+
+.hourly-weather
+.weather-list
+.weather-item {
+
+  display:
+    flex;
+
+  gap:
+    7px;
+
+  width:
+    60px;
+
+  flex-shrink:
+    0;
+
+  font-weight:
+    500;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  color:
+    var(--muted);
+
+  transition:
+    0.25s ease;
+}
+
+
+/* Hover */
+
+.hourly-weather
+.weather-list
+.weather-item:hover {
+
+  transform:
+    translateY(-3px);
+
+  color:
+    var(--text);
+}
+
+
+/* =========================================================
+   HOURLY WEATHER ICON
+========================================================= */
+
+.hourly-weather
+.weather-item
+.weather-icon {
+
+  width:
+    38px;
+
+  aspect-ratio:
+    1;
+
+  object-fit:
+    contain;
+
+  filter:
+    drop-shadow(
+      0 5px 12px
+      rgba(
+        57,
+        200,
+        255,
+        0.12
+      )
+    );
+}
+
+
+/* =========================================================
+   TEMPERATURE IN HOURLY ITEM
+========================================================= */
+
+.hourly-weather
+.weather-item
+.temperature {
+
+  color:
+    var(--text);
+
+  font-size:
+    0.82rem;
+
+  font-weight:
+    600;
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.hourly-weather
+.weather-item
+.time {
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.76rem;
+}
+
+
+/* =========================================================
+   LIGHT THEME SPECIAL EFFECTS
+========================================================= */
+
+body.light-theme
+.current-weather
+.weather-icon {
+
+  filter:
+    drop-shadow(
+      0 12px 25px
+      rgba(
+        8,
+        127,
+        209,
+        0.12
+      )
+    );
+}
+
+
+body.light-theme
+.hourly-weather {
+
+  background:
+    rgba(
+      8,
+      127,
+      209,
+      0.025
+    );
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 624px) {
+
+  body {
+    padding:
+      15px;
+  }
+
+
+  .container {
+
+    max-width:
+      100%;
+
+    border-radius:
+      18px;
+  }
+
+
+  .search-section {
+
+    padding:
+      20px;
+  }
+
+
+  .no-results {
+
+    padding:
+      30px;
+  }
+
+
+  .hourly-weather {
+
+    padding:
+      16px 20px;
+  }
+
+
+  .hourly-weather
+  .weather-list {
+
+    gap:
+      28px;
+  }
+
+
+  .current-weather
+  .temperature {
+
+    font-size:
+      3rem;
+  }
+
+
+  .current-weather
+  .description {
+
+    font-size:
+      1.05rem;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 400px) {
+
+  body {
+    padding:
+      10px;
+  }
+
+
+  .search-section {
+
+    gap:
+      7px;
+
+    padding:
+      16px;
+  }
+
+
+  .search-section
+  .input-wrapper {
+
+    height:
+      50px;
+  }
+
+
+  .search-section
+  .location-button {
+
+    width:
+      50px;
+
+    height:
+      50px;
+  }
+
+
+  .current-weather
+  .weather-icon {
+
+    width:
+      120px;
+  }
+
+
+  .current-weather
+  .temperature {
+
+    font-size:
+      2.7rem;
+  }
+
+
+  .hourly-weather
+  .weather-list {
+
+    gap:
+      23px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+  }
+}
+
+/* =========================================================
+   HORIZON NAVBAR
+========================================================= */
+
+.navbar {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(1180px, calc(100% - 36px));
+  height: 68px;
+
+  padding: 0 16px 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  z-index: 9999;
+
+  border: 1px solid rgba(68, 166, 255, 0.18);
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7, 24, 44, 0.88),
+      rgba(3, 15, 30, 0.82)
+    );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.28),
+    0 0 35px rgba(31, 159, 255, 0.06);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  text-decoration: none;
+
+  color: #f5f9ff;
+
+  flex-shrink: 0;
+}
+
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  border: 1px solid rgba(57, 200, 255, 0.25);
+
+  box-shadow:
+    0 0 18px rgba(31, 159, 255, 0.15);
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+
+.brand:hover .brand-logo {
+  transform: rotate(-4deg) scale(1.06);
+
+  box-shadow:
+    0 0 25px rgba(57, 200, 255, 0.35);
+}
+
+
+.brand-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #39c8ff
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+
+.nav-links a {
+  position: relative;
+
+  padding: 10px 13px;
+
+  color: #91abc6;
+
+  text-decoration: none;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  border-radius: 9px;
+
+  transition:
+    color .25s ease,
+    background .25s ease;
+}
+
+
+.nav-links a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 4px;
+
+  width: 0;
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #1f9fff,
+      #39c8ff
+    );
+
+  transition:
+    width .3s ease;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #f5f9ff;
+
+  background:
+    rgba(31, 159, 255, 0.07);
+}
+
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 22px;
+}
+
+
+/* =========================================================
+   LAUNCH AI
+========================================================= */
+
+.nav-cta {
+  position: relative;
+
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 11px 17px;
+
+  border-radius: 11px;
+
+  text-decoration: none;
+
+  color: #ffffff;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1f9fff,
+      #087fd1
+    );
+
+  box-shadow:
+    0 10px 25px rgba(31, 159, 255, 0.20);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+
+.nav-cta span {
+  font-size: 1rem;
+
+  transition:
+    transform .25s ease;
+}
+
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 32px rgba(31, 159, 255, 0.32);
+}
+
+
+.nav-cta:hover span {
+  transform: translate(2px, -2px);
+}
+
+
+/* Shine */
+
+.nav-cta::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 80%;
+  height: 100%;
+
+  transform: skewX(-22deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.28),
+      transparent
+    );
+
+  transition:
+    left .55s ease;
+}
+
+
+.nav-cta:hover::before {
+  left: 140%;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.menu-btn {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  border: 1px solid rgba(68, 166, 255, 0.18);
+  border-radius: 11px;
+
+  background:
+    rgba(8, 24, 45, 0.8);
+
+  color: #39c8ff;
+
+  font-size: 1.25rem;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    transform .25s ease;
+}
+
+
+.menu-btn:hover {
+  background:
+    rgba(31, 159, 255, 0.14);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   WEATHER PAGE POSITIONING
+========================================================= */
+
+.weather-page {
+  width: 100%;
+
+  min-height: 100vh;
+
+  padding-top: 115px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   MOBILE NAVBAR
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .navbar {
+    width: calc(100% - 24px);
+
+    top: 12px;
+
+    height: 62px;
+
+    padding: 0 10px 0 14px;
+  }
+
+
+  .nav-links {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+
+    margin: 0;
+
+    padding: 10px;
+
+    display: none;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    border: 1px solid rgba(68, 166, 255, 0.18);
+    border-radius: 16px;
+
+    background:
+      rgba(4, 18, 34, 0.96);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+      0 20px 45px rgba(0,0,0,.30);
+  }
+
+
+  .nav-links.open {
+    display: flex;
+  }
+
+
+  .nav-links a {
+    width: 100%;
+
+    padding: 13px 15px;
+  }
+
+
+  .nav-links a::after {
+    display: none;
+  }
+
+
+  .nav-cta {
+    display: none;
+  }
+
+
+  .menu-btn {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .brand-name {
+    font-size: .95rem;
+  }
+
+
+  .weather-page {
+    padding-top: 95px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .navbar {
+    width: calc(100% - 20px);
+
+    top: 10px;
+  }
+
+
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+
+  .brand-name {
+    font-size: .88rem;
+    letter-spacing: 1.5px;
+  }
+
+
+  .weather-page {
+    padding-top: 90px;
+  }
+
+}
+
+
+/* =========================================================
+   LIGHT THEME NAVBAR
+========================================================= */
+
+body.light-theme .navbar {
+  background:
+    rgba(255, 255, 255, 0.86);
+
+  border-color:
+    rgba(8, 127, 209, 0.14);
+
+  box-shadow:
+    0 18px 50px rgba(33, 91, 124, 0.10);
+}
+
+
+body.light-theme .brand {
+  color: #0b2034;
+}
+
+
+body.light-theme .nav-links a {
+  color: #647d95;
+}
+
+
+body.light-theme .nav-links a:hover,
+body.light-theme .nav-links a.active {
+  color: #0b2034;
+
+  background:
+    rgba(8, 127, 209, 0.06);
+}
+
+
+body.light-theme .menu-btn {
+  background:
+    rgba(255, 255, 255, .85);
+
+  color: #087fd1;
+}
+
+
+@media (max-width: 850px) {
+
+  body.light-theme .nav-links {
+    background:
+      rgba(255, 255, 255, .96);
+
+    border-color:
+      rgba(8, 127, 209, .14);
+  }
+
+}

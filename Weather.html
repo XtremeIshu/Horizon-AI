@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HORIZON — Weather</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Material Icons -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"
+  >
+
+  <!-- Weather CSS -->
+  <link rel="stylesheet" href="Weather.css">
+  <link rel="icon" type="image/x-icon" href="/Skill Mela/Homepage/Images/Logo.jpg">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       HORIZON NAVBAR
+  ====================================================== -->
+
+  <header class="navbar">
+
+    <!-- Brand -->
+    <a href="#home" class="brand">
+
+      <img
+        src="/Skill Mela/Homepage/Images/Logo.jpg"
+        alt="HORIZON Logo"
+        class="brand-logo"
+      >
+
+      <span class="brand-name">HORIZON</span>
+
+    </a>
+
+
+    <!-- Navigation -->
+    <nav class="nav-links" id="navLinks">
+
+      <a href="/Skill Mela/Homepage/index.html">
+        Home
+      </a>
+
+      <a href="/Skill Mela/Utilities/Utilities.html">
+        AI Tools
+      </a>
+
+      <a href="/Skill Mela/Document AI/Document.html">
+        Document
+      </a>
+
+      <a href="/Skill Mela/Developer Desk/developer-desk.html">
+        Workspace
+      </a>
+
+      <a href="/Skill Mela/Study AI/Study.html">
+        Study
+      </a>
+
+    </nav>
+
+
+    <!-- Launch AI -->
+    <a
+      href="/Skill Mela/ChatBot/ChatBot.html"
+      class="nav-cta"
+    >
+      Launch AI
+      <span>↗</span>
+    </a>
+
+
+    <!-- Mobile menu -->
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      aria-label="Open Menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       WEATHER APP
+  ====================================================== -->
+
+  <main class="weather-page">
+
+    <div class="container">
+
+      <!-- Search section -->
+      <div class="search-section">
+
+        <div class="input-wrapper">
+
+          <span class="material-symbols-rounded">
+            search
+          </span>
+
+          <input
+            type="search"
+            placeholder="Enter a city name"
+            class="search-input"
+          >
+
+        </div>
+
+        <button
+          class="location-button"
+          type="button"
+          aria-label="Use my location"
+        >
+
+          <span class="material-symbols-rounded">
+            my_location
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- No results -->
+      <div class="no-results">
+
+        <img
+          src="icons/no-result.svg"
+          alt="No results found"
+          class="icon"
+        >
+
+        <h3 class="title">
+          Something went wrong!
+        </h3>
+
+        <p class="message">
+          We're unable to retrieve the weather details.
+          Ensure you've entered a valid city or try again later.
+        </p>
+
+      </div>
+
+
+      <!-- Weather -->
+      <div class="weather-section">
+
+        <!-- Current weather -->
+        <div class="current-weather">
+
+          <img
+            src="icons/no-result.svg"
+            class="weather-icon"
+            alt="Weather"
+          >
+
+          <h2 class="temperature">
+            00<span>°C</span>
+          </h2>
+
+          <h5 class="description">
+            Weather description
+          </h5>
+
+        </div>
+
+
+        <!-- Hourly forecast -->
+        <div class="hourly-weather">
+
+          <ul class="weather-list"></ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       NAVBAR JAVASCRIPT
+  ====================================================== -->
+
+  <script>
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    if (menuBtn && navLinks) {
+
+      menuBtn.addEventListener("click", () => {
+
+        const isOpen =
+          navLinks.classList.toggle("open");
+
+        menuBtn.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+
+      });
+
+
+      navLinks
+        .querySelectorAll("a")
+        .forEach(link => {
+
+          link.addEventListener("click", () => {
+
+            navLinks.classList.remove("open");
+
+            menuBtn.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+          });
+
+        });
+
+    }
+
+  </script>
+
+
+  <!-- Existing Weather JavaScript -->
+  <script src="Weather.js"></script>
+
+</body>
+</html>
