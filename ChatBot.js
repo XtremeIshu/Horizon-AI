@@ -11,7 +11,7 @@
 // IMPORTANT:
 // Do NOT paste your old exposed key here.
 // Create a fresh Gemini API key and put it below.
-const API_KEY = "PASTE_YOUR_NEW_GEMINI_API_KEY_HERE";
+const API_KEY = "AQ.Ab8RN6Kc2rv6eTNIKrWKKpzy4E1snEdZXD9OdGuM2QR7e9LjEw";
 
 const MODEL = "gemini-3.8-flash";
 
